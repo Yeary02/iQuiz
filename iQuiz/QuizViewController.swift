@@ -7,57 +7,49 @@
 
 import UIKit
 
-class QuizViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
+class QuizViewController: UIViewController {
+    var quizdata: Quiz? = nil
     @IBOutlet weak var questionLabel: UILabel!
-    @IBOutlet weak var answerTableView: UITableView!
-    var q = 0 // question order
-    
-    var items: [Question?]
-    var index = 0
-    
-    init(items: [Question]) {
-        self.items = items
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    @IBOutlet weak var option1Button: UIButton!
+    @IBOutlet weak var option2Button: UIButton!
+    @IBOutlet weak var option3Button: UIButton!
+    @IBOutlet weak var option4Button: UIButton!
+    var numQuestion = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        answerTableView.delegate = self
-        answerTableView.dataSource = self
+        questionLabel.text = quizdata?.questions[numQuestion].text
+        option1Button.setTitle(quizdata?.questions[numQuestion].answers[0], for: .normal)
+        option2Button.setTitle(quizdata?.questions[numQuestion].answers[1], for: .normal)
+        option3Button.setTitle(quizdata?.questions[numQuestion].answers[2], for: .normal)
+        option4Button.setTitle(quizdata?.questions[numQuestion].answers[3], for: .normal)
     }
     
-    // num of rows
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.count
+    @IBAction func optionButtonTouchUpInside(_ sender: UIButton) {
+        if let answerVC = storyboard?.instantiateViewController(withIdentifier: "answer") as? AnswerViewController {
+            let correctAnswer = quizdata?.questions[numQuestion].answer
+            
+            if correctAnswer != String(sender.tag) {
+                switch correctAnswer {
+                case "0":
+                    answerVC.result = "Sorry! The answer is \((quizdata?.questions[numQuestion].answers[0])!)"
+                case "1":
+                    answerVC.result = "Sorry! The answer is \((quizdata?.questions[numQuestion].answers[1])!)"
+                case "2":
+                    answerVC.result = "Sorry! The answer is \((quizdata?.questions[numQuestion].answers[2])!)"
+                case "3":
+                    answerVC.result = "Sorry! The answer is \((quizdata?.questions[numQuestion].answers[3])!)"
+                default:
+                    print("Getting Selection Error")
+                }
+            } else {
+                answerVC.result = "You're right!"
+            }
+            
+            self.navigationController?.pushViewController(answerVC, animated: true)
+        }
     }
     
-    // num of sections
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-
-    // create cell
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let answer = items[indexPath.row]?.answer
-        let cell = tableView.dequeueReusableCell(withIdentifier: "answercell", for: indexPath) as? QuizTableViewCell
-        cell?.answerLabel.text = answer?[indexPath.row].text
-        return cell!
-    }
-    
-    func configureUI() {
-        questionLabel.text = items[q]?.text
-    }
-    
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        tableView.deselectRow(at: indexPath, animated: true)
-//        print(items[indexPath.row] as Any)
-          // next quiz question
-//    }
     
 //    private func checkAnswer(answer: Answer, question: Question) -> Bool {
 //        if question.answer.contains(where: { $0.text == answer.text }) && answer.correct {
@@ -66,14 +58,4 @@ class QuizViewController: UIViewController, UITableViewDelegate, UITableViewData
 //        }
 //        return false
 //    }
-}
-
-struct Question {
-    let text: String
-    let answer: [Answer]
-}
-
-struct Answer {
-    let text: String
-    let correct: Bool
 }

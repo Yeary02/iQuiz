@@ -10,57 +10,38 @@ import UIKit
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var tableView: UITableView!
 
-    struct Quiz {
-        let title: String
-        let description: String
-        let iconName: String
-        let items: [Question]
-    }
+    let data = [Quiz(title: "Science!",
+                     desc: "Because SCIENCE!",
+                     iconName: "science",
+                     questions: [Question(text: "What is fire?", answer: "1", answers: ["One of the four classical elements",
+                                                                                        "A magical reaction given to us by God",
+                                                                                        "A band that hasn't yet been discovered",
+                                                                                        "Fire! Fire! Fire! heh-heh"])]),
+                Quiz(title: "Marvel Super Heroes",
+                                 desc: "Avengers, Assemble!",
+                                 iconName: "avenger",
+                                 questions: [Question(text: "Who is Iron Man?", answer: "1", answers: ["Tony Stark",
+                                                                                                       "Obadiah Stane",
+                                                                                                       "A rock hit by Megadeth",
+                                                                                                       "Nobody knows"]),
+                                             Question(text: "Who founded the X-Men?", answer: "2", answers: ["Tony Stark",
+                                                                                                             "Professor X",
+                                                                                                             "The X-Institute",
+                                                                                                             "Erik Lensherr"]),
+                                             Question(text: "How did Spider-Man get his powers?", answer: "1",
+                                                      answers: ["He was bitten by a radioactive spider",
+                                                                "He ate a radioactive spider",
+                                                                "He is a radioactive spider",
+                                                                "He looked at a radioactive spider"])]),
+                Quiz(title: "Mathematics",
+                                 desc: "Did you pass the third grade?",
+                                 iconName: "math",
+                                 questions: [Question(text: "What is 2+2?", answer: "1", answers: ["4",
+                                                                                                   "22",
+                                                                                                   "An irrational number",
+                                                                                                   "Nobody knows"])]),
 
-    struct Question {
-        let text: String
-        let answer: [Answer]
-    }
-
-    struct Answer {
-        let text: String
-        let correct: Bool
-    }
-    
-    let data: [Quiz] = [Quiz(title: "Mathematics",
-                             description: "Do some simple calculations",
-                             iconName: "math",
-                             items: [Question(text: "disarray", answer: [Answer(text: "disorder(T)", correct: true),
-                                                                        Answer(text: "dissident", correct: false),
-                                                                        Answer(text: "dignity", correct: false),
-                                                                        Answer(text: "diagram", correct: false)]),
-                                     Question(text: "disclose", answer: [Answer(text: "enclose", correct: false),
-                                                                         Answer(text: "trick", correct: false),
-                                                                         Answer(text: "uncover", correct: true),
-                                                                         Answer(text: "display", correct: false)])]),
-                        Quiz(title: "Marvel Super Heroes",
-                             description: "Do you know them?",
-                             iconName: "avenger",
-                             items: [Question(text: "parsimony", answer: [Answer(text: "injection", correct: false),
-                                                                        Answer(text: "hut", correct: false),
-                                                                        Answer(text: "stinginess(T)", correct: true),
-                                                                        Answer(text: "brass", correct: false)]),
-                                    Question(text: "devolve", answer: [Answer(text: "involve", correct: false),
-                                                                        Answer(text: "fall(T)", correct: true),
-                                                                        Answer(text: "mutter", correct: false),
-                                                                        Answer(text: "prevail", correct: false)])]),
-                        Quiz(title: "Science",
-                             description: "Do you remember",
-                             iconName: "science",
-                             items: [Question(text: "concomitant", answer: [Answer(text: "national", correct: false),
-                                                                        Answer(text: "attendant(T)", correct: true),
-                                                                        Answer(text: "curious", correct: false),
-                                                                        Answer(text: "financial", correct: false)]),
-                                     Question(text: "novel", answer: [Answer(text: "active", correct: false),
-                                                                         Answer(text: "fertile", correct: false),
-                                                                         Answer(text: "unprecedented(T)", correct: true),
-                                                                         Answer(text: "gaseous", correct: false)])])
-                        ]
+    ]
                         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,7 +65,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let quiz = data[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? TableViewCell
         cell?.listTitleLabel.text = quiz.title
-        cell?.listDescriptionLabel.text = quiz.description
+        cell?.listDescriptionLabel.text = quiz.desc
         cell?.icon.image = UIImage(named: quiz.iconName)
         return cell!
     }
@@ -94,17 +75,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
         
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-//        
-//        let itemList = data[indexPath.row].items // 为啥itemList是VC.question
-//        let vc = QuizViewController(items: itemList)
-//        vc.configureUI()
-//        // data[indexPath.row].iconName = "checked"
-//        tableView.reloadData()
+//        tableView.deselectRow(at: indexPath, animated: true)
+//        let vc = storyboard?.instantiateViewController(withIdentifier: "quiz") as! QuizViewController
+//        vc.data =
 //        navigationController?.pushViewController(vc, animated: true)
+        if let vc = storyboard?.instantiateViewController(withIdentifier: "quiz") as? QuizViewController {
+            vc.quizdata = self.data[indexPath.row]
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
-    // why not working!
     @IBAction func SettingButtonTouchUpInside(_ sender: Any) {
         let alert = UIAlertController(title: "My Alert", message: "This is an alert.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in }))
