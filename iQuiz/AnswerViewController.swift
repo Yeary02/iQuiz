@@ -8,14 +8,43 @@
 import UIKit
 
 class AnswerViewController: UIViewController {
+    var quizdata: Quiz? = nil
     var result: String = ""
+    var question: String = ""
+    var answer: String = ""
+    var totalQuestionNum = 0
+    var correctNum = 0
+    var currentQuestionIndex = -1
     @IBOutlet weak var resultLabel: UILabel!
+    @IBOutlet weak var questionLabel: UILabel!
+    @IBOutlet weak var answerLabel: UILabel!
     @IBOutlet weak var nextButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
         resultLabel.text = result
+        questionLabel.text = question
+        answerLabel.text = answer
+    }
+    
+    @IBAction func nextButtonTouchUpInside(_ sender: Any) {
+        // 是不是最后一个question
+        if currentQuestionIndex == totalQuestionNum - 1 {
+            if let finishVC = storyboard?.instantiateViewController(withIdentifier: "finish") as? FinishViewController {
+                finishVC.correctNum = self.correctNum
+                finishVC.totalNum = self.totalQuestionNum
+                self.navigationController?.pushViewController(finishVC, animated: true)
+            }
+        } else {
+            if let questionVC = storyboard?.instantiateViewController(withIdentifier: "quiz") as? QuizViewController {
+                questionVC.currentQuestionIndex = currentQuestionIndex + 1
+                questionVC.answerSelected = -1
+                questionVC.correctNum = self.correctNum
+                questionVC.quizdata = self.quizdata
+                self.navigationController?.pushViewController(questionVC, animated: true)
+            }
+        }
     }
     
 

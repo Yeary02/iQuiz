@@ -18,6 +18,7 @@
 		F6B9939B282B27D1006942E1 /* Quiz.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B9939A282B27D1006942E1 /* Quiz.swift */; };
 		F6B9939F282DD6A6006942E1 /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B9939E282DD6A6006942E1 /* Question.swift */; };
 		F6B993A1283035B8006942E1 /* AnswerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B993A0283035B7006942E1 /* AnswerViewController.swift */; };
+		F6B993A32830407A006942E1 /* FinishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B993A22830407A006942E1 /* FinishViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		F6B9939A282B27D1006942E1 /* Quiz.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quiz.swift; sourceTree = "<group>"; };
 		F6B9939E282DD6A6006942E1 /* Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		F6B993A0283035B7006942E1 /* AnswerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerViewController.swift; sourceTree = "<group>"; };
+		F6B993A22830407A006942E1 /* FinishViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +80,7 @@
 				F6B9938E2829E56D006942E1 /* Info.plist */,
 				F6B9939A282B27D1006942E1 /* Quiz.swift */,
 				F6B9939E282DD6A6006942E1 /* Question.swift */,
+				F6B993A22830407A006942E1 /* FinishViewController.swift */,
 			);
 			path = iQuiz;
 			sourceTree = "<group>";
@@ -155,6 +158,7 @@
 			files = (
 				F6B993852829E56B006942E1 /* ViewController.swift in Sources */,
 				F6B9939F282DD6A6006942E1 /* Question.swift in Sources */,
+				F6B993A32830407A006942E1 /* FinishViewController.swift in Sources */,
 				F6B99397282A0259006942E1 /* QuizViewController.swift in Sources */,
 				F6B993A1283035B8006942E1 /* AnswerViewController.swift in Sources */,
 				F6B9939B282B27D1006942E1 /* Quiz.swift in Sources */,

@@ -14,48 +14,71 @@ class QuizViewController: UIViewController {
     @IBOutlet weak var option2Button: UIButton!
     @IBOutlet weak var option3Button: UIButton!
     @IBOutlet weak var option4Button: UIButton!
-    var numQuestion = 0
+    @IBOutlet weak var submitButton: UIButton!
+    var currentQuestionIndex = 0
+    var answerSelected = -1
+    var correctNum = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        questionLabel.text = quizdata?.questions[numQuestion].text
-        option1Button.setTitle(quizdata?.questions[numQuestion].answers[0], for: .normal)
-        option2Button.setTitle(quizdata?.questions[numQuestion].answers[1], for: .normal)
-        option3Button.setTitle(quizdata?.questions[numQuestion].answers[2], for: .normal)
-        option4Button.setTitle(quizdata?.questions[numQuestion].answers[3], for: .normal)
+        questionLabel.text = quizdata?.questions[currentQuestionIndex].text
+        option1Button.setTitle(quizdata?.questions[currentQuestionIndex].answers[0], for: .normal)
+        option2Button.setTitle(quizdata?.questions[currentQuestionIndex].answers[1], for: .normal)
+        option3Button.setTitle(quizdata?.questions[currentQuestionIndex].answers[2], for: .normal)
+        option4Button.setTitle(quizdata?.questions[currentQuestionIndex].answers[3], for: .normal)
+        
     }
     
     @IBAction func optionButtonTouchUpInside(_ sender: UIButton) {
-        if let answerVC = storyboard?.instantiateViewController(withIdentifier: "answer") as? AnswerViewController {
-            let correctAnswer = quizdata?.questions[numQuestion].answer
-            
-            if correctAnswer != String(sender.tag) {
-                switch correctAnswer {
-                case "0":
-                    answerVC.result = "Sorry! The answer is \((quizdata?.questions[numQuestion].answers[0])!)"
-                case "1":
-                    answerVC.result = "Sorry! The answer is \((quizdata?.questions[numQuestion].answers[1])!)"
-                case "2":
-                    answerVC.result = "Sorry! The answer is \((quizdata?.questions[numQuestion].answers[2])!)"
-                case "3":
-                    answerVC.result = "Sorry! The answer is \((quizdata?.questions[numQuestion].answers[3])!)"
-                default:
-                    print("Getting Selection Error")
-                }
-            } else {
-                answerVC.result = "You're right!"
-            }
-            
-            self.navigationController?.pushViewController(answerVC, animated: true)
+        switch sender.tag {
+            case 1:
+                answerSelected = 1
+                option1Button.isSelected = true
+                option2Button.isSelected = false
+                option3Button.isSelected = false
+                option4Button.isSelected = false
+            case 2:
+                answerSelected = 2
+                option1Button.isSelected = false
+                option2Button.isSelected = true
+                option3Button.isSelected = false
+                option4Button.isSelected = false
+            case 3:
+                answerSelected = 3
+                option1Button.isSelected = false
+                option2Button.isSelected = false
+                option3Button.isSelected = true
+                option4Button.isSelected = false
+            case 4:
+                answerSelected = 4
+                option1Button.isSelected = false
+                option2Button.isSelected = false
+                option3Button.isSelected = false
+                option4Button.isSelected = true
+            default:
+                answerSelected = -1
         }
     }
     
     
-//    private func checkAnswer(answer: Answer, question: Question) -> Bool {
-//        if question.answer.contains(where: { $0.text == answer.text }) && answer.correct {
-//            index += 1
-//            return true
-//        }
-//        return false
-//    }
+    @IBAction func submitButtonTouchUpInside(_ sender: UIButton) {
+        if let answerVC = storyboard?.instantiateViewController(withIdentifier: "answer") as? AnswerViewController {
+            let correctIndex = quizdata?.questions[currentQuestionIndex].answer
+            if correctIndex != String(answerSelected) {
+                answerVC.result = "Sorry! You got it wrong."
+            } else {
+                answerVC.result = "You're right!"
+                correctNum += 1
+            }
+            let ci = Int(correctIndex!)! - 1
+            let ans = (quizdata?.questions[currentQuestionIndex].answers[ci])
+            answerVC.question = "Question: \((quizdata?.questions[currentQuestionIndex].text)!)"
+            answerVC.answer = "Correct Answer: \(ans!)"
+            answerVC.totalQuestionNum = (quizdata?.questions.count)!
+            answerVC.correctNum = self.correctNum
+            answerVC.currentQuestionIndex = self.currentQuestionIndex
+            answerVC.quizdata = self.quizdata
+            self.navigationController?.pushViewController(answerVC, animated: true)
+        }
+    }
 }

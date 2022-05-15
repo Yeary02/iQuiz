@@ -75,13 +75,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
         
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        tableView.deselectRow(at: indexPath, animated: true)
-//        let vc = storyboard?.instantiateViewController(withIdentifier: "quiz") as! QuizViewController
-//        vc.data =
-//        navigationController?.pushViewController(vc, animated: true)
-        if let vc = storyboard?.instantiateViewController(withIdentifier: "quiz") as? QuizViewController {
-            vc.quizdata = self.data[indexPath.row]
-            self.navigationController?.pushViewController(vc, animated: true)
+        if let quizvc = storyboard?.instantiateViewController(withIdentifier: "quiz") as? QuizViewController {
+            quizvc.quizdata = self.data[indexPath.row]
+            self.navigationController?.pushViewController(quizvc, animated: true)
         }
     }
     
