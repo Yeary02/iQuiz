@@ -7,6 +7,7 @@
 
 import UIKit
 import Foundation
+import SwiftUI
 
 protocol PopViewControllerProtacol {
     func checkNowButtonTouchUpInside(_ theurl: String)
@@ -17,17 +18,18 @@ class PopViewController: UIViewController {
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var checkNowButton: UIButton!
     var delegate: PopViewControllerProtacol?
+    @AppStorage("historyUrl") private var historyUrl = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        textField.text = historyUrl
     }
 
     
     @IBAction func checkNowButtonTouchUpInside(_ sender: Any) {
-        
-        //let url = URL (string: "\(textField.text!)")
+        historyUrl = textField.text!
         self.delegate?.checkNowButtonTouchUpInside(textField.text!)
         self.delegate?.checkNowButtonTouchUpInside(sender)
         self.dismiss(animated: true)
