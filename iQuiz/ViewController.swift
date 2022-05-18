@@ -6,49 +6,76 @@
 //
 
 import UIKit
+import Foundation
+import SystemConfiguration
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIPopoverPresentationControllerDelegate, PopViewControllerProtacol {
+    
+    @IBOutlet weak var settingButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
-
-    let data = [Quiz(title: "Science!",
-                     desc: "Because SCIENCE!",
-                     iconName: "science",
-                     questions: [Question(text: "What is fire?", answer: "1", answers: ["One of the four classical elements",
-                                                                                        "A magical reaction given to us by God",
-                                                                                        "A band that hasn't yet been discovered",
-                                                                                        "Fire! Fire! Fire! heh-heh"])]),
-                Quiz(title: "Marvel Super Heroes",
-                                 desc: "Avengers, Assemble!",
-                                 iconName: "avenger",
-                                 questions: [Question(text: "Who is Iron Man?", answer: "1", answers: ["Tony Stark",
-                                                                                                       "Obadiah Stane",
-                                                                                                       "A rock hit by Megadeth",
-                                                                                                       "Nobody knows"]),
-                                             Question(text: "Who founded the X-Men?", answer: "2", answers: ["Tony Stark",
-                                                                                                             "Professor X",
-                                                                                                             "The X-Institute",
-                                                                                                             "Erik Lensherr"]),
-                                             Question(text: "How did Spider-Man get his powers?", answer: "1",
-                                                      answers: ["He was bitten by a radioactive spider",
-                                                                "He ate a radioactive spider",
-                                                                "He is a radioactive spider",
-                                                                "He looked at a radioactive spider"])]),
-                Quiz(title: "Mathematics",
-                                 desc: "Did you pass the third grade?",
-                                 iconName: "math",
-                                 questions: [Question(text: "What is 2+2?", answer: "1", answers: ["4",
-                                                                                                   "22",
-                                                                                                   "An irrational number",
-                                                                                                   "Nobody knows"])]),
-
-    ]
-                        
+    let iconName = ["science", "avenger", "math"]
+    var data: [Quiz] = []
+    let initurl = "https://tednewardsandbox.site44.com/questions.json"
+    var inputurl: String = ""
+    var decodedjsonData: [Quiz] = []
+                    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         tableView.dataSource = self
         tableView.delegate = self
+        showAlert()
+        parse(jsonData: readLocalJson("storage")!)
+        if !isInternetAvailable() { // no internet
+            data = decodedjsonData
+        } else {
+            fetchData(initurl)
+        }
     }
+    
+    private func parse(jsonData: Data) {
+        decodedjsonData = try! JSONDecoder().decode([Quiz].self, from: jsonData)
+    }
+    
+    func isInternetAvailable() -> Bool {
+        var zeroAddress = sockaddr_in()
+        zeroAddress.sin_len = UInt8(MemoryLayout.size(ofValue: zeroAddress))
+        zeroAddress.sin_family = sa_family_t(AF_INET)
+
+        let defaultRouteReachability = withUnsafePointer(to: &zeroAddress) {
+            $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {zeroSockAddress in
+                SCNetworkReachabilityCreateWithAddress(nil, zeroSockAddress)
+            }
+        }
+
+        var flags = SCNetworkReachabilityFlags()
+        if !SCNetworkReachabilityGetFlags(defaultRouteReachability!, &flags) {
+            return false
+        }
+        let isReachable = flags.contains(.reachable)
+        let needsConnection = flags.contains(.connectionRequired)
+        return (isReachable && !needsConnection)
+    }
+
+    func showAlert() {
+        if !isInternetAvailable() {
+            let alert = UIAlertController(title: "Warning", message: "The Internet is not available", preferredStyle: .alert)
+            let action = UIAlertAction(title: "Dismiss", style: .default, handler: nil)
+            alert.addAction(action)
+            present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    private func readLocalJson(_ name: String) -> Data? {
+       do {
+           if let bundlePath = Bundle.main.path(forResource: name, ofType: "json"),
+              let jsonData = try String(contentsOfFile: bundlePath).data(using: .utf8) {
+               return jsonData
+           }
+       } catch {
+           print(error)
+       }
+       return nil
+   }
 
     // num of rows
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -59,6 +86,36 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
+    
+    func checkNowButtonTouchUpInside(_ theurl: String) {
+        inputurl = theurl
+    }
+    
+    func checkNowButtonTouchUpInside(_ sender: Any) {
+        fetchData(inputurl)
+    }
+    
+    func fetchData(_ theurl: String) {
+        let url = URL (string: theurl)
+        
+        URLSession.shared.dataTask(with: url!) {
+            data, response, error in
+            guard let data = data else { return }
+            
+            if response != nil {
+                if (response! as! HTTPURLResponse).statusCode != 200 {
+                    print("Something went wrong! \(error!)")
+                }
+            }
+
+            if let quizdata = try? JSONDecoder().decode([Quiz].self, from: data) {
+                DispatchQueue.main.async {
+                    self.data = quizdata
+                    self.tableView.reloadData()
+                }
+            }
+        }.resume()
+    }
 
     // create cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -66,7 +123,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? TableViewCell
         cell?.listTitleLabel.text = quiz.title
         cell?.listDescriptionLabel.text = quiz.desc
-        cell?.icon.image = UIImage(named: quiz.iconName)
+        cell?.icon.image = UIImage(named: iconName[indexPath.row])
         return cell!
     }
     
@@ -82,9 +139,18 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     @IBAction func SettingButtonTouchUpInside(_ sender: Any) {
-        let alert = UIAlertController(title: "My Alert", message: "This is an alert.", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in }))
-        self.present(alert, animated: true, completion: { NSLog("The completion handler fired") })
+        if let popvc = storyboard?.instantiateViewController(withIdentifier: "pop") as? PopViewController {
+
+            popvc.modalPresentationStyle = .popover
+            popvc.delegate = self
+            let popOverVC = popvc.popoverPresentationController
+            popOverVC?.delegate = self
+            popOverVC?.sourceView = self.settingButton
+            popOverVC?.sourceRect = CGRect(x: self.settingButton.bounds.midX, y: self.settingButton.bounds.minY, width: 0, height: 0)
+            popvc.preferredContentSize = CGSize(width: 250, height: 250)
+
+            self.present(popvc, animated: true)
+        }
     }
     
 }

@@ -1,31 +1,6 @@
-//
-//  Quiz.swift
-//  iQuiz
-//
-//  Created by 袁月 on 2022/5/10.
-//
-
-import Foundation
-
-class Quiz: Decodable {
-    var title: String
-    var desc: String
-    //var iconName: String
-    var questions: [Question]
-    
-    init(title: String, desc: String, iconName: String, questions: [Question]) {
-        self.title = title
-        self.desc = desc
-        //self.iconName = iconName
-        self.questions = questions
-    }
-}
-
-
-/*
 [
     { "title":"Science!",
-      "desc":"Because SCIENCE!",
+      "desc":"Because SCIENCE! (This is local)",
       "questions":[
         {
           "text":"What is fire?",
@@ -88,4 +63,3 @@ class Quiz: Decodable {
       ]
    }
 ]
-*/

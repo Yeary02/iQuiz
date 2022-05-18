@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F6ABBF2F283371D700811622 /* PopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6ABBF2E283371D700811622 /* PopViewController.swift */; };
+		F6ABBF3328344CB000811622 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F6ABBF3228344CAF00811622 /* Settings.bundle */; };
+		F6ABBF3928348E4F00811622 /* storage.json in Resources */ = {isa = PBXBuildFile; fileRef = F6ABBF3828348E4F00811622 /* storage.json */; };
 		F6B993812829E56B006942E1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B993802829E56B006942E1 /* AppDelegate.swift */; };
 		F6B993832829E56B006942E1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B993822829E56B006942E1 /* SceneDelegate.swift */; };
 		F6B993852829E56B006942E1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B993842829E56B006942E1 /* ViewController.swift */; };
@@ -22,6 +25,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F6ABBF2E283371D700811622 /* PopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopViewController.swift; sourceTree = "<group>"; };
+		F6ABBF3228344CAF00811622 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		F6ABBF3828348E4F00811622 /* storage.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = storage.json; sourceTree = "<group>"; };
 		F6B9937D2829E56B006942E1 /* iQuiz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iQuiz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6B993802829E56B006942E1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F6B993822829E56B006942E1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -81,6 +87,9 @@
 				F6B9939A282B27D1006942E1 /* Quiz.swift */,
 				F6B9939E282DD6A6006942E1 /* Question.swift */,
 				F6B993A22830407A006942E1 /* FinishViewController.swift */,
+				F6ABBF2E283371D700811622 /* PopViewController.swift */,
+				F6ABBF3828348E4F00811622 /* storage.json */,
+				F6ABBF3228344CAF00811622 /* Settings.bundle */,
 			);
 			path = iQuiz;
 			sourceTree = "<group>";
@@ -143,8 +152,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F6ABBF3328344CB000811622 /* Settings.bundle in Resources */,
 				F6B9938D2829E56D006942E1 /* LaunchScreen.storyboard in Resources */,
 				F6B9938A2829E56D006942E1 /* Assets.xcassets in Resources */,
+				F6ABBF3928348E4F00811622 /* storage.json in Resources */,
 				F6B993882829E56B006942E1 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -158,6 +169,7 @@
 			files = (
 				F6B993852829E56B006942E1 /* ViewController.swift in Sources */,
 				F6B9939F282DD6A6006942E1 /* Question.swift in Sources */,
+				F6ABBF2F283371D700811622 /* PopViewController.swift in Sources */,
 				F6B993A32830407A006942E1 /* FinishViewController.swift in Sources */,
 				F6B99397282A0259006942E1 /* QuizViewController.swift in Sources */,
 				F6B993A1283035B8006942E1 /* AnswerViewController.swift in Sources */,
@@ -311,6 +323,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = T8Q98UZKGG;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = iQuiz/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -338,6 +351,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = T8Q98UZKGG;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = iQuiz/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Question {
+class Question: Decodable {
     var text: String
     var answer: String
     var answers: [String]

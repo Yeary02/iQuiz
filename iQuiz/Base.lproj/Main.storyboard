@@ -90,12 +90,55 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="settingButton" destination="c0Q-ad-Get" id="d6y-b0-z8S"/>
                         <outlet property="tableView" destination="o5z-3J-mNW" id="QKQ-IA-Nji"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="928.98550724637687" y="80.357142857142847"/>
+        </scene>
+        <!--Pop View Controller-->
+        <scene sceneID="hs0-IB-gR6">
+            <objects>
+                <viewController storyboardIdentifier="pop" id="33U-lk-DtG" customClass="PopViewController" customModule="iQuiz" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="veO-Tj-xoi">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="https://tednewardsandbox.site44.com/questions.json" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CZY-7M-7nr">
+                                <rect key="frame" x="16" y="436" width="382" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IEO-ub-90I">
+                                <rect key="frame" x="16" y="799" width="382" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Check Now"/>
+                                <connections>
+                                    <action selector="checkNowButtonTouchUpInside:" destination="33U-lk-DtG" eventType="touchUpInside" id="pKd-HB-Wwn"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="PJt-eR-sNH"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="CZY-7M-7nr" firstAttribute="centerY" secondItem="PJt-eR-sNH" secondAttribute="centerY" id="D47-Kr-r2S"/>
+                            <constraint firstItem="PJt-eR-sNH" firstAttribute="bottom" secondItem="IEO-ub-90I" secondAttribute="bottom" constant="32" id="Eal-yq-U7E"/>
+                            <constraint firstItem="PJt-eR-sNH" firstAttribute="trailing" secondItem="CZY-7M-7nr" secondAttribute="trailing" constant="16" id="LDG-5T-8dn"/>
+                            <constraint firstItem="CZY-7M-7nr" firstAttribute="leading" secondItem="PJt-eR-sNH" secondAttribute="leading" constant="16" id="UMY-xB-cbL"/>
+                            <constraint firstItem="IEO-ub-90I" firstAttribute="leading" secondItem="PJt-eR-sNH" secondAttribute="leading" constant="16" id="dmr-yV-ISv"/>
+                            <constraint firstItem="PJt-eR-sNH" firstAttribute="trailing" secondItem="IEO-ub-90I" secondAttribute="trailing" constant="16" id="kbr-yJ-3pE"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="checkNowButton" destination="IEO-ub-90I" id="LFu-mj-nG8"/>
+                        <outlet property="textField" destination="CZY-7M-7nr" id="adD-oC-IuZ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Vjp-NN-efa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="924" y="741"/>
         </scene>
         <!--Quiz View Controller-->
         <scene sceneID="JU8-Bh-nDo">

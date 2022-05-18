@@ -18,6 +18,8 @@ class QuizViewController: UIViewController {
     var currentQuestionIndex = 0
     var answerSelected = -1
     var correctNum = 0
+    var checkedOut = UserDefaults.standard.bool(forKey: "enabled_preference")
+    //print("Check out button is \(checkedOut) checked out.")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +28,7 @@ class QuizViewController: UIViewController {
         option2Button.setTitle(quizdata?.questions[currentQuestionIndex].answers[1], for: .normal)
         option3Button.setTitle(quizdata?.questions[currentQuestionIndex].answers[2], for: .normal)
         option4Button.setTitle(quizdata?.questions[currentQuestionIndex].answers[3], for: .normal)
-        
+    
     }
     
     @IBAction func optionButtonTouchUpInside(_ sender: UIButton) {
@@ -62,6 +64,7 @@ class QuizViewController: UIViewController {
     
     
     @IBAction func submitButtonTouchUpInside(_ sender: UIButton) {
+        checkedOut = true
         if let answerVC = storyboard?.instantiateViewController(withIdentifier: "answer") as? AnswerViewController {
             let correctIndex = quizdata?.questions[currentQuestionIndex].answer
             if correctIndex != String(answerSelected) {
