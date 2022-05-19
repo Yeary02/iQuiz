@@ -27,12 +27,16 @@ class PopViewController: UIViewController {
         textField.text = historyUrl
     }
 
-    
     @IBAction func checkNowButtonTouchUpInside(_ sender: Any) {
         historyUrl = textField.text!
         self.delegate?.checkNowButtonTouchUpInside(textField.text!)
         self.delegate?.checkNowButtonTouchUpInside(sender)
         self.dismiss(animated: true)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+        super.touchesBegan(touches, with: event)
     }
 }
 /*
